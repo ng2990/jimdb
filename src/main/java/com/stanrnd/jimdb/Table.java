@@ -26,7 +26,7 @@ public class Table<T> {
 
 	private IndexConfig indexConfig;
 	
-	private Object[] data;
+	public Object[] data;
 	
 	private Map<String, JimdbTreeMap<Object, List<Integer>>> dataMapping;
 	
@@ -77,7 +77,6 @@ public class Table<T> {
 		return ++lastRowId;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<T> find(Filter filter) {
 		BSTFilterNode bstFilterNode = new BSTFilterNode();
 		OperationFactory operationFactory = new OperationFactory(new OperationParam(lastRowId, maxNoOfRows, indexConfig, data, dataMapping, emptyIndexes));
