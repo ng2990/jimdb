@@ -26,7 +26,7 @@ public class Table<T> {
 
 	private IndexConfig indexConfig;
 	
-	private Object[] data;
+	public Object[] data;
 	
 	private Map<String, JimdbTreeMap<Object, List<Integer>>> dataMapping;
 	
@@ -42,7 +42,7 @@ public class Table<T> {
 		}
 	}
 	
-	public void insert(T bean) {
+	public void insert(T bean) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		// try {
 		int emptyRowId = findEmptyRowId();
 		data[emptyRowId] = bean;
@@ -61,7 +61,7 @@ public class Table<T> {
 		// }
 	}
 	
-	public void insert(List<T> beans) {
+	public void insert(List<T> beans) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		for(T t:beans) {
 			insert(t);
 		}
@@ -77,7 +77,6 @@ public class Table<T> {
 		return ++lastRowId;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<T> find(Filter filter) {
 		BSTFilterNode bstFilterNode = new BSTFilterNode();
 		OperationFactory operationFactory = new OperationFactory(new OperationParam(lastRowId, maxNoOfRows, indexConfig, data, dataMapping, emptyIndexes));
@@ -90,7 +89,7 @@ public class Table<T> {
 		return results;
 	}
 	
-	public void update(T bean, Filter filter) {
+	public void update(T bean, Filter filter) throws IllegalArgumentException, IllegalAccessException {
 		// try {
 		Map<Field, Object> fieldMap = new HashMap<Field, Object>();
 		Field[] fields = bean.getClass().getDeclaredFields();
