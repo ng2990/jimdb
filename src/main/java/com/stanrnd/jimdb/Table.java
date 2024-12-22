@@ -44,8 +44,11 @@ public class Table<T> {
 	
 	public void insert(T bean) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		// try {
-		int emptyRowId = findEmptyRowId();
-		data[emptyRowId] = bean;
+		if (bean == null) {
+			return;
+		}
+		int emptyRowId = this.findEmptyRowId();
+		this.data[emptyRowId] = bean;
 		for(String col:indexConfig.getColIndexes()) {
 			Field field = bean.getClass().getDeclaredField(col);
 			field.setAccessible(true);
@@ -73,6 +76,7 @@ public class Table<T> {
 		} else if(maxNoOfRows == (lastRowId+1)) {
 			System.out.println("Warn: Number of records reaches the max limit. Please increase the Max Rows for better performance.");
 			// double the data array size
+			return 1;
 		}
 		return ++lastRowId;
 	}
